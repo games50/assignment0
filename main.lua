@@ -190,7 +190,7 @@ function love.update(dt)
             sounds['wall_hit']:play()
         end
 
-        -- if we reach the left or right edge of the screen, go back to serve
+        -- if we reach the left edge of the screen, go back to serve
         -- and update the score and serving player
         if ball.x < 0 then
             servingPlayer = 1
@@ -209,16 +209,21 @@ function love.update(dt)
             end
         end
 
+        -- if we reach the right edge of the screen, go back to serve
+        -- and update the score and serving player
         if ball.x > VIRTUAL_WIDTH then
             servingPlayer = 2
             player1Score = player1Score + 1
             sounds['score']:play()
 
+            -- if we've reached a score of 10, the game is over; set the
+            -- state to done so we can show the victory message
             if player1Score == 10 then
                 winningPlayer = 1
                 gameState = 'done'
             else
                 gameState = 'serve'
+                -- places the ball in the middle of the screen, no velocity
                 ball:reset()
             end
         end
